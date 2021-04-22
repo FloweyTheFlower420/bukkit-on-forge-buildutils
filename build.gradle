@@ -1,0 +1,24 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = "forge"
+            url = "https://maven.minecraftforge.net/"
+        }
+    }
+}
+
+plugins {
+    id 'java'
+}
+
+apply plugin: 'application'
+mainClassName = 'com.floweytf.mappinggen.Main'
+
+group 'com.floweytf.mappinggen'
+version '1.0'
+
+dependencies {
+    compile 'org.jboss.forge.roaster:roaster-api:2.22.2.Final'
+    compile 'commons-cli:commons-cli:1.4'
+}
