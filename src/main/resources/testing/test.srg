@@ -1,0 +1,4 @@
+CL: com/floweytf/Test net/floweytf/Test
+CL: com/floweytf/TestArg net/floweytf/TestArg
+FD: com/floweytf/Test/name net/floweytf/Test/otherName
+MD: com/floweytf/Test/addSomeValue (Lcom/floweytf/TestArg;)Z net/floweytf/Test/addValue (Lnet/floweytf/TestArg;)Z

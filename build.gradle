@@ -1,16 +1,15 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        maven {
-            name = "forge"
-            url = "https://maven.minecraftforge.net/"
-        }
-    }
-}
-
 plugins {
     id 'java'
 }
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "flowey"
+        url = "http://maven.floweytf.com/releases/"
+    }
+}
+
 
 apply plugin: 'application'
 mainClassName = 'com.floweytf.mappinggen.Main'
@@ -18,7 +17,14 @@ mainClassName = 'com.floweytf.mappinggen.Main'
 group 'com.floweytf.mappinggen'
 version '1.0'
 
+run {
+    args '-g'
+    args 'test.json'
+}
+
 dependencies {
-    compile 'org.jboss.forge.roaster:roaster-api:2.22.2.Final'
-    compile 'commons-cli:commons-cli:1.4'
+    implementation 'fr.inria.gforge.spoon:spoon-core:8.4.0'
+    implementation 'commons-cli:commons-cli:1.4'
+    implementation 'com.floweytf.utils:utils:1.3.1'
+    implementation 'com.google.code.gson:gson:2.8.6'
 }

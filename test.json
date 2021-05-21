@@ -1,0 +1,12 @@
+[
+  {
+    "type": "csrg",
+    "source-type": "jar",
+    "sources": "/testing/test.csrg"
+  },
+  {
+    "type": "srg",
+    "source-type": "jar",
+    "sources": "/testing/test.srg"
+  }
+]
