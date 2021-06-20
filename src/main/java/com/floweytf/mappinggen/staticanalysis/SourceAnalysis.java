@@ -12,6 +12,7 @@ import spoon.support.util.ModelList;
 import java.util.List;
 
 public class SourceAnalysis {
+    @SuppressWarnings("rawtypes")
     public static String remapClass(String source, Mappings mappings) {
         CtClass ctClass = Launcher.parseClass(source);
         CtModel ctModel = ctClass.getFactory().getModel();

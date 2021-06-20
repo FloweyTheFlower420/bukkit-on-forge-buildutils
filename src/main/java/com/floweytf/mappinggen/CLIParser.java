@@ -16,6 +16,9 @@ public class CLIParser {
         Option r1 = new Option("g", "generate-mappings", true, "generates mappings based of off config");
         r1.setRequired(false);
 
+        Option out = new Option("o", "output", true, "where to output the file");
+        r1.setRequired(true);
+
         Option r2 = new Option("a", "apply", true, "applies a mapping");
         r2.setRequired(false);
 
@@ -25,6 +28,7 @@ public class CLIParser {
         options.addOption(r1);
         options.addOption(r2);
         options.addOption(r3);
+        options.addOption(out);
 
         CommandLineParser parser = new DefaultParser();
         HelpFormatter formatter = new HelpFormatter();

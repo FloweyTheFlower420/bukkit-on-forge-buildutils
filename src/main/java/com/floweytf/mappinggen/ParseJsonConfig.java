@@ -1,15 +1,19 @@
 package com.floweytf.mappinggen;
 
-import com.floweytf.utils.mappings.MappingsFactory;
-import com.floweytf.utils.mappings.Mappings;
 import com.floweytf.utils.mappings.MappingType;
+import com.floweytf.utils.mappings.Mappings;
+import com.floweytf.utils.mappings.MappingsFactory;
 import com.floweytf.utils.streams.InputStreamUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.SequenceInputStream;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Function;
 
 public class ParseJsonConfig {
@@ -18,15 +22,13 @@ public class ParseJsonConfig {
         if(e.isJsonPrimitive() && e.getAsJsonPrimitive().isString())
             return MappingsFactory.readFromSources(type, converter.apply(e.getAsJsonPrimitive().getAsString()));
 
-        JsonObject element = o;
-
-        InputStreamUtils[] source = new InputStreamUtils[element.getAsJsonArray("sources").size()];
+        InputStream[] source = new InputStream[o.getAsJsonArray("sources").size()];
         int i = 0;
-        for (JsonElement sources : element.getAsJsonArray("sources")) {
-            source[i] = converter.apply(sources.getAsString());
+        for (JsonElement sources : o.getAsJsonArray("sources")) {
+            source[i] = converter.apply(sources.getAsString()).toStream();
             i++;
         }
-        return MappingsFactory.readFromSources(type, source);
+        return MappingsFactory.readFromSources(type, InputStreamUtils.getStream(new SequenceInputStream(Collections.enumeration(Arrays.asList(source)))));
     }
 
     public static Mappings parse(String filename) throws IOException {
@@ -37,13 +39,16 @@ public class ParseJsonConfig {
 
         for (JsonElement e : processing) {
             JsonObject element = e.getAsJsonObject();
-            MappingType type = null;
+            MappingType type;
             switch (element.getAsJsonPrimitive("type").getAsString()) {
                 case "csrg":
                     type = MappingType.CSRG;
                     break;
                 case "srg":
                     type = MappingType.SRG;
+                    break;
+                case "tsrg":
+                    type = MappingType.TSRG;
                     break;
                 default:
                     throw new IllegalArgumentException("Type can only be csrg, srg, tsrg or tsrg2");

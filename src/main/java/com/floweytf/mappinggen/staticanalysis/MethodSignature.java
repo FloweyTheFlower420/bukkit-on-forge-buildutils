@@ -13,7 +13,7 @@ public class MethodSignature {
     List<String> params;
     String returnValue;
 
-    private static Map<String, String> JVM_TYPES = ImmutableMap.copyOf(
+    private static final Map<String, String> JVM_TYPES = ImmutableMap.copyOf(
         Stream.of(
             new AbstractMap.SimpleEntry<>("boolean","Z"),
             new AbstractMap.SimpleEntry<>("byte", "B"),

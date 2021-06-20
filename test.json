@@ -2,11 +2,11 @@
   {
     "type": "csrg",
     "source-type": "jar",
-    "sources": "/testing/test.csrg"
+    "sources": "/1.16.5/bukkit-repackage.csrg"
   },
   {
-    "type": "srg",
+    "type": "tsrg",
     "source-type": "jar",
-    "sources": "/testing/test.srg"
+    "sources": "/1.16.5/srg.tsrg"
   }
 ]
