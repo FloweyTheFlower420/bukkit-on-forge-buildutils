@@ -19,9 +19,9 @@ version '1.0'
 
 run {
     args '-g'
-    args 'test.json'
+    args '1.16.5'
     args '-o'
-    args '1.16.5-bukkit-to-mcp.srg'
+    args 'bukkit-to-mcp.srg'
 }
 
 dependencies {

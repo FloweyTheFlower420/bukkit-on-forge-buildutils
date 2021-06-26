@@ -13,21 +13,13 @@ public class CLIParser {
         // parse cli arguments
         Options options = new Options();
 
-        Option r1 = new Option("g", "generate-mappings", true, "generates mappings based of off config");
-        r1.setRequired(false);
+        Option gen = new Option("g", "generate-mappings", true, "generates mappings based of off config");
+        gen.setRequired(true);
 
         Option out = new Option("o", "output", true, "where to output the file");
-        r1.setRequired(true);
+        out.setRequired(true);
 
-        Option r2 = new Option("a", "apply", true, "applies a mapping");
-        r2.setRequired(false);
-
-        Option r3 = new Option("i", "interactive", false, "interactive CLI to generate/apply mappings");
-        r2.setRequired(false);
-
-        options.addOption(r1);
-        options.addOption(r2);
-        options.addOption(r3);
+        options.addOption(gen);
         options.addOption(out);
 
         CommandLineParser parser = new DefaultParser();
