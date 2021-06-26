@@ -1,5 +1,7 @@
 package com.floweytf.mappinggen.staticanalysis;
 
+import com.google.common.collect.ImmutableMap;
+import org.apache.commons.lang3.StringUtils;
 import spoon.Launcher;
 import spoon.reflect.CtModel;
 import spoon.reflect.declaration.CtCompilationUnit;
@@ -10,8 +12,13 @@ import spoon.reflect.reference.CtTypeReference;
 import spoon.reflect.visitor.DefaultJavaPrettyPrinter;
 import spoon.reflect.visitor.filter.TypeFilter;
 
+import java.util.AbstractMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 class Utils {
     public static String modelToString(CtModel ctModel, CtType ctType) {
@@ -38,5 +45,42 @@ class Utils {
         setPackage.accept(ref, new Launcher().getFactory().Package().createReference(newName.substring(0, i)));
         ref.setSimpleName(newName.substring(i+1));
         return ref;
+    }
+
+    private static final Map<String, String> JVM_TYPES = ImmutableMap.copyOf(
+        Stream.of(
+            new AbstractMap.SimpleEntry<>("boolean","Z"),
+            new AbstractMap.SimpleEntry<>("byte", "B"),
+            new AbstractMap.SimpleEntry<>("char", "C"),
+            new AbstractMap.SimpleEntry<>("short", "S"),
+            new AbstractMap.SimpleEntry<>("int", "I"),
+            new AbstractMap.SimpleEntry<>("long", "J"),
+            new AbstractMap.SimpleEntry<>("float", "F"),
+            new AbstractMap.SimpleEntry<>("double", "D")
+        ).collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue))
+    );
+
+    private static void appendType(String str, StringBuilder b) {
+        int c = StringUtils.countMatches(str, "[]");
+        str = str .replace("[]", "");
+        if(JVM_TYPES.containsKey(str))
+            str = JVM_TYPES.get(str);
+        else
+            str = "L" + str .replace(".", "/") + ";";
+
+        b.append(StringUtils.repeat('[', c)).append(str);
+    }
+
+    public static String sourceToJVM(List<String> params) {
+        StringBuilder b  = new StringBuilder("(");
+        params.forEach(i -> {
+            appendType(i, b);
+        });
+        b.append(")");
+        return b.toString();
+    }
+
+    public static String toMappingsSig(String name, String className, List<String> paramName) {
+        return className.replace(".", "/") + " " + name + " " + sourceToJVM(paramName);
     }
 }

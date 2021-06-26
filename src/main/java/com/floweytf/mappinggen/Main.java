@@ -14,5 +14,6 @@ public class Main {
             Mappings m = ParseJsonConfig.parse(cli.getOptionValue('g'));
             MappingsFactory.writeSrg(m, OutputStreamUtils.getStreamFile(cli.getOptionValue('o')));
         }
+
     }
 }
